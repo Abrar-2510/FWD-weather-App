@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const path= require("path");
 
 // server port
-const port = 4020; 
+const port = 5555; 
 // Start up an instance of app
 const app = express();
 // this is the default for access anyone from any localhost also you can use allowedheaders?
@@ -35,7 +35,8 @@ app.post('/addData', (req, res)=>{
   projectData['date'] = req.body.date;
   projectData['temp'] = req.body.temp;
   projectData['content'] = req.body.content;
-  res.send(projectData);
+  projectData['city'] = req.body.city,
+  res.send('success: ' + projectData);
 });
 
 // Initialize all route with a callback function
