@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const path= require("path");
 
 // server port
-const port = 2040; 
+const port = 4020; 
 // Start up an instance of app
 const app = express();
 // this is the default for access anyone from any localhost also you can use allowedheaders?
@@ -31,7 +31,7 @@ app.listen(port,() => {
 
 // Post Route
 const data = [];
-app.post('/add', (req, res)=>{
+app.post('/addData', (req, res)=>{
   projectData['date'] = req.body.date;
   projectData['temp'] = req.body.temp;
   projectData['content'] = req.body.content;
@@ -39,7 +39,7 @@ app.post('/add', (req, res)=>{
 });
 
 // Initialize all route with a callback function
-app.get('/all', (req, res)=>{
+app.get('/allData', (req, res)=>{
     // console.log("get data are here")
     console.log(projectData);
     // these are all status codes https://developer.mozilla.org/en-US/docs/Web/HTTP/Status so 200 means success

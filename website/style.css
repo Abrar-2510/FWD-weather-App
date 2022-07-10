@@ -4,7 +4,7 @@ body{
     background-position: bottom;
     min-height: 130vh;
     font-family: BlinkMacSystemFont, sans-serif;
-    color: #365a7a;
+    color: #fff;
 }
 
 #app{
@@ -47,7 +47,9 @@ body{
 #content{
 
 }
-
+label{
+    color: #365a7a;
+}
 .headline {
     margin: 20px auto;
     font-size: 56px;

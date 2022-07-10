@@ -13,23 +13,15 @@ let baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 // api key
 let apiKey = '&appid=7d18c491dbc0d451d33a26ee4d0c1c53&units=metric';
 
-
-// Event listener to add function to existing HTML DOM element
-document.getElementById('generate').addEventListener('click', performAction);
-
 /* Function called by event listener */
-function performAction(e) {
-  e.preventDefault();
-  // get user input values
+document.getElementById('generate').addEventListener('click', () => {
   const ZipElement = document.getElementById('zip').value;
   const content = document.getElementById('feelings').value;
-
   getWeather(baseURL, ZipElement, apiKey)
-    .then(function (userData) {
-      // add data to POST request
-      postData('/add', { 
+    .then(function (inputData) {
+      postData('/addData', { 
         date: newDate,
-        temp: userData.main.temp, 
+        temp: inputData.main.temp, 
         content
      })
     }).then(function (dataUpdated) {
@@ -38,55 +30,35 @@ function performAction(e) {
     })
   // reset form
   form.reset();
-}
-/* Function called by event listener */
-const UIgenerated = async () => {
-    const request = await fetch('/all');
-    try {
-      const myData = await request.json()
-      // show icons on the page
-      icons.forEach(icon => icon.style.opacity = '1');
-      // update new entry values
-      dateElement.innerHTML = 'The Date is : ' + myData.date;
-      tempElement.innerHTML = 'Temperature now is : ' + Math.round(myData.temp) + '&degC'; 
-      contentElement.innerHTML = 'Your feeling is : ' + myData.content;
-    }
-    catch (error) {
-        // catch any errors
-      console.log("error", error);
-    }
-  };
+});
+
 
 /* Function to GET Web API Data*/
 const getWeather = async (baseURL, ZipElement, apiKey) => {
-  // res equals to the result of fetch function
-  const res = await fetch(baseURL + ZipElement + apiKey);
+  const responses = await fetch(baseURL + ZipElement + apiKey);
+   // turned into JSON
   try {
-    // userData equals to the result of fetch function
-    const userData = await res.json();
-    return userData;
+    const inputData = await responses.json();
+    return inputData;
   } catch (error) {
-    console.log("error", error);
+    console.log("error: ", error);
   }
 }
 
 /* Function to POST data */
-const postData = async (url = '', data = {}) => {
-  const req = await fetch(url, {
+const postData = async (url = '', dataUpdated = {}) => {
+  // console.log(dataUpdated);
+  const request = await fetch(url, {
     method: "POST",
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json;charset=UTF-8"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      date: data.date,
-      temp: data.temp,
-      content: data.content
-    })
+    body: JSON.stringify(dataUpdated)
   })
 
   try {
-    const dataUpdated = await req.json();
+    const dataUpdated = await request.json();
     return dataUpdated;
   }
   catch (error) {
@@ -95,3 +67,17 @@ const postData = async (url = '', data = {}) => {
   }
 };
 
+/* Function called by event listener */
+const UIgenerated = async () => {
+  const request = await fetch('/allData');
+  try {
+    const myData = await request.json();
+    dateElement.innerHTML = 'The Date is : ' + myData.date;
+    tempElement.innerHTML = 'Temperature now is : ' + Math.round(myData.temp) + '&degC'; 
+    contentElement.innerHTML = 'Your feeling is : ' + myData.content;
+  }
+  catch (error) {
+      // catch any errors
+    console.log("error", error);
+  }
+};
