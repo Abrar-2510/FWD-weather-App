@@ -23,6 +23,7 @@ weather journal App
 
 ## installation
 Clone it using GIT `git clone`, or download it as ZIP file.
+
 ## development
 
 ```bash
